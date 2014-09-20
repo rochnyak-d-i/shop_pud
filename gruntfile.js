@@ -80,6 +80,16 @@ module.exports = function(grunt) {
             }
         },
 
+        imageEmbed: {
+            dist: {
+                src: ['./public/css/main.min.css'],
+                dest: './public/css/style.min.css'
+            },
+            options: {
+                deleteAfterEncoding: true
+            }
+        },
+
         watch: {
             scripts: {
                 files: './dev/js/*.js',
@@ -98,7 +108,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-uncss');
+    grunt.loadNpmTasks('grunt-image-embed');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'copy', 'imagemin']);
+    grunt.registerTask('dev', ['concat', 'uglify', 'cssmin', 'copy', 'watch']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'copy', 'uncss', 'imagemin', 'imageEmbed']);
 }
