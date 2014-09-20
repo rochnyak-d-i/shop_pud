@@ -1,0 +1,16 @@
+{
+	"name": "lovelypad_ru",
+	"version": "0.0.1",
+	"authors": [{"name": "Rochnyak Dmitriy Igorevich"}],
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"angular": "latest",
+		"bootstrap": "latest"
+	}
+}
