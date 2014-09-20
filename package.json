@@ -11,6 +11,7 @@
         , "grunt-contrib-copy": "latest"
         , "grunt-contrib-imagemin": "latest"
         , "grunt-image-embed": "latest"
+        , "grunt-favicons": "latest"
         , "grunt-uncss": "latest"
     }
 }
