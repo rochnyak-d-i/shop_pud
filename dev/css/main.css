@@ -1,0 +1,41 @@
+@font-face{
+    font-family: 'SegoeUILight';
+    src:url('../fonts/SEGOEUIL.eot');
+    src:url('../fonts/SEGOEUIL.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/SEGOEUIL.woff') format('woff'),
+        url('../fonts/SEGOEUIL.ttf') format('truetype'),
+        url('../fonts/segue.svg#web') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: "SegoeUILight";
+    height: 100%;
+}
+
+.wrap-content {
+    height: 100%;
+}
+
+.logo {
+    background: url('images/logo.png') no-repeat;
+    width: 103px;
+    height: 133px;
+    display: inline-block;
+}
+
+.row {
+    position: relative;
+}
+
+.container-height {
+    display: table;
+    width: 100%;
+}
+
+.container-height [class*="col-"] {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+}

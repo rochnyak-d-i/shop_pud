@@ -1,0 +1,115 @@
+#header {
+    margin-bottom: 40px;
+}
+
+.head-logo {
+    margin-top: 70px;
+    margin-bottom: 8px;
+    padding-top: 14px;
+    background-color: #E8E7EB;
+    position: relative;
+}
+
+.head-logo__name {
+    background: url('images/logo_name.png') no-repeat;
+    display: inline-block;
+    width: 258px;
+    height: 58px;
+    line-height: normal;
+    vertical-align: bottom;
+}
+
+.head-logo__img {
+    position: absolute;
+    bottom: -1px;
+    margin-left: 5px;
+}
+
+.welcome {
+    background: url('images/bg_main.jpg') no-repeat center;
+    background-clip: border-box;
+    background-origin: border-box;
+    background-size: cover;
+    padding: 8.9% 0 6.1% 0;
+    overflow: hidden;
+}
+
+.welcome__text1,
+.welcome__text2,
+.welcome__text3 {
+    color: #FF7373;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.75);
+    line-height: 51px;
+}
+
+.welcome__text1 {
+    font-size: 3.071em;
+}
+
+.welcome__text2 {
+    font-size: 3.429em;
+    margin-left: 3.4%;
+}
+
+.welcome__text3 {
+    color: #fff;
+    font-size: 4.286em;
+    margin-left: 9%;
+}
+
+.navigation {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: 1.786em;
+    padding-right: 0;
+    overflow: hidden;
+}
+
+.navigation:after {
+    content: "";
+    display: block;
+    background: url('images/pencil.jpg') no-repeat;
+    background-clip: border-box;
+    background-origin: border-box;
+    background-size: 97% 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    opacity: 0.72;
+}
+
+.navigation__item-wrap {
+    display: block;
+    float: left;
+    height: 100%;
+}
+
+.navigation__item-wrap:before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 100%;
+    background: #fff;
+}
+
+.navigation__item-wrap:first-child:before{
+    width: 0px;
+}
+
+.navigation__item {
+    display: inline-block;
+    padding: 0px 22px;
+    color: #FF7373;
+    vertical-align: top;
+    height: 100%;
+}
+.navigation__item:hover {
+    text-decoration: none;
+    background: rgba(232, 231, 235, .5);
+    color: #CCA180;
+}
+
