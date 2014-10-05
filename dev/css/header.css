@@ -34,7 +34,6 @@
     overflow: hidden;
 }
 
-.welcome__text1,
 .welcome__text2,
 .welcome__text3 {
     color: #FF7373;
@@ -43,7 +42,11 @@
 }
 
 .welcome__text1 {
-    font-size: 3.071em;
+    background: url('images/welcome.png') no-repeat;
+    width: 388px;
+    height: 65px;
+    position: relative;
+    bottom: -7px;
 }
 
 .welcome__text2 {
@@ -106,6 +109,7 @@
     color: #FF7373;
     vertical-align: top;
     height: 100%;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 .navigation__item:hover {
     text-decoration: none;

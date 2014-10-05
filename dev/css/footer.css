@@ -1,0 +1,15 @@
+#footer {
+    text-align: center;
+    overflow: hidden;
+    padding: 0 10px 15px;
+    margin-top: 20px;
+}
+
+.copyright {
+    font-size: 2.143em;
+}
+
+#footer .logo {
+    bottom: -30px;
+    position: relative;
+}
