@@ -28,7 +28,13 @@ module.exports = function(grunt) {
             dist: {
                 src: [
                     './dev/components/bootstrap/dist/css/bootstrap.css'
-                    , './dev/css/*.css'
+                    , './dev/css/main.css'
+                    , './dev/css/header.css'
+                    , './dev/css/content.css'
+                    , './dev/css/footer.css'
+                    , './dev/css/header_media.css'
+                    , './dev/css/content_media.css'
+                    , './dev/css/footer_media.css'
                 ],
                 dest: './public/css/main.min.css'
             }

@@ -13,16 +13,21 @@
 .head-logo__name {
     background: url('images/logo_name.png') no-repeat;
     display: inline-block;
-    width: 258px;
+    width: 46.5%;
     height: 58px;
     line-height: normal;
     vertical-align: bottom;
+    background-size: 100% auto;
 }
 
 .head-logo__img {
     position: absolute;
     bottom: -1px;
+    right: 30%;
     margin-left: 5px;
+    width: 17.6%;
+    height: 185%;
+    background-size: 100% 100%;
 }
 
 .welcome {
@@ -47,6 +52,7 @@
     height: 65px;
     position: relative;
     bottom: -7px;
+    background-size: 100% auto;
 }
 
 .welcome__text2 {
@@ -83,6 +89,7 @@
     top: 0;
     z-index: -1;
     opacity: 0.72;
+    filter: alpha(opacity=72);
 }
 
 .navigation__item-wrap {
@@ -110,10 +117,15 @@
     vertical-align: top;
     height: 100%;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+
+    transition: linear 0.3s;
+    transition-property: background, color, box-shadow;
 }
 .navigation__item:hover {
     text-decoration: none;
     background: rgba(232, 231, 235, .5);
     color: #CCA180;
 }
-
+.navigation__item:active{
+    box-shadow: inset 0 0 40px 0px #FF7373;
+}

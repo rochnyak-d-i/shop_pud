@@ -1,0 +1,122 @@
+@media (max-width: 1200px) {
+    .navigation__item {
+        padding: 0 9.6px;
+    }
+}
+@media (max-width: 991px) {
+    .head-logo__name {
+        height: 40px;
+    }
+
+    .navigation {
+        background: rgba(255,255,255,0.9);
+        padding-left: 0;
+    }
+
+    .navigation__item-wrap:before,
+    .navigation:after {
+        display: none;
+    }
+    .navigation__item-wrap {
+        float: none;
+        height: auto;
+    }
+    .navigation__item {
+        width: 100%;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .head-logo {
+        margin-top: 50px;
+    }
+    .head-logo__name {
+        width: 170px
+    }
+    .head-logo__img {
+        right: auto;
+        left: 187px;
+        width: 90px;
+    }
+
+    .welcome {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 601px) {
+    .navigation {
+        width: 33px;
+        height: 33px;
+        top: 5px;
+        right: 5px;
+        background-color: transparent;
+        box-shadow: 0px 0px 1px 1px #fff;
+        cursor: pointer;
+    }
+
+    .navigation:before {
+        content: '';
+        position: absolute;
+        width: 68%;
+        height: 3px;
+        background: #FFF;
+        top: 8px;
+        left: 16%;
+        box-shadow: 0 7px 0 #FFF,0 14px 0 #FFF;
+
+        transition: linear 0.2s;
+        transition-property: left, opacity;
+    }
+
+    .navigation__item-wrap {
+        visibility: hidden;
+        position: relative;
+        right: -100px;
+
+        transition: linear 0.2s;
+        transition-property: right, visibility;
+    }
+
+    .navigation:hover {
+        width: auto;
+        height: auto;
+        top: 0;
+        right: 0;
+        box-shadow: none;
+        cursor: default;
+        background-color: rgba(255,255,255,.9);
+    }
+
+    .navigation:hover:before {
+        left: 100px;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .navigation:hover .navigation__item-wrap {
+        visibility: visible;
+        right: 0;
+    }
+}
+
+@media (max-width: 490px) {
+    .welcome {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 405px) {
+    .welcome {
+        font-size: 7px;
+    }
+
+    .welcome__text1 {
+        width: 100%;
+    }
+
+    .welcome__text2, .welcome__text3 {
+        line-height: 35px;
+    }
+}
