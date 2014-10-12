@@ -1,0 +1,12 @@
+@media (max-width: 409px) {
+    #footer {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    #footer .logo {
+        height: 100px;
+        width: 70px;
+    }
+}

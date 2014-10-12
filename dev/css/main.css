@@ -20,6 +20,7 @@ body {
 
 .logo {
     background: url('images/logo.png') no-repeat;
+    background-size: 100% 100%;
     width: 103px;
     height: 133px;
     display: inline-block;
