@@ -19,8 +19,16 @@ Basket = (function() {
         }
 
         if(event === 'add') {
+            if(products[product.id]) {
+                return false;
+            }
+
             products[product.id] = product;
         } else {
+            if(!products[product.id]) {
+                return false;
+            }
+
             delete products[product.id];
         }
 

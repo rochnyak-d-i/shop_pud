@@ -42,25 +42,7 @@
                 <p class="desc__text"></p>
             </section>
 
-            <section id="products">
-                <article class="product col-sm-4">
-                    <img class="product_image img-responsive img-circle" src="css/images/pencil.jpg" alt="image">
-                    <div class="product__name">
-                        Название
-                    </div>
-                    <div class="product__desc">
-                        Описание
-                    </div>
-                    <div class="product__price">
-                        100р
-                    </div>
-                    <div class="product__count">
-                        <button class="product__count__plus" type="button">&lt;</button>
-                        <input type="text" value="0" class="product__count__current"/>
-                        <button class="product__count__minus" type="button">&gt;</button>
-                    </div>
-                </article>
-            </section>
+            <section id="products"></section>
         </main>
 
         <footer id="footer">
@@ -72,13 +54,13 @@
 
     <script id="prod_tmpl" type="text/x-handlebars-template">
         <article class="product col-sm-4">
-            <img class="product_image img-responsive img-circle" src="{{images[0]}}" alt="image">
+            <img class="product_image img-responsive img-circle" src="{{images.[0]}}" alt="image">
             <div class="product__name">{{name}}</div>
             <div class="product__price">{{price}}р</div>
             <div class="product__count">
-                <button class="product__count__plus" type="button">&lt;</button>
-                <input type="number" max="{{oCount.store}}" value="{{oCount.sale}}" class="product__count__current"/>
-                <button class="product__count__minus" type="button">&gt;</button>
+                <button class="product__count__minus" type="button">&lt;</button>
+                <input type="number" max="{{oCount.store}}" min="0" value="{{oCount.sale}}" class="product__count__current"/>
+                <button class="product__count__plus" type="button">&gt;</button>
             </div>
         </article>
     </script>

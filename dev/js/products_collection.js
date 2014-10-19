@@ -10,35 +10,35 @@ ProductsCollection = (function() {
     ;
 
     loadProducts = function (data) {
-        var prodTmpl =
-            Handlebars.compile($('#prod_tmpl').html());
-        var data1 = {
+        var data = {0:{
             id: 1
             , name: 'Товар'
-            , images: ['/img1.png', '/img2.png']
+            , images: ['css/images/pencil.jpg', '/img2.png']
             , price: 100
             , count: 3
             , tmpl: prodTmpl
-        },
-        data2 = {
+        }, 1:{
             id: 2
             , name: 'Товар2'
-            , images: ['/img1.png', '/img2.png']
+            , images: ['css/images/pencil.jpg', '/img2.png']
             , price: 200
             , count: 7
             , tmpl: prodTmpl
-        };
+        }};
 
-        addProduct(data1);
-        addProduct(data2);
+        var prodTmpl =
+            Handlebars.compile($('#prod_tmpl').html());
+
+        $.each(data, function(index, productData) {
+            addProduct(productData);
+        })
     }
 
     addProduct = function(data) {
         var product = (data instanceof Product)
-            ? data : new Product(data);
+            ? data : new Product(data, ProductsCollection);
 
         products.push(product);
-        product.render();
         $el.append(product.$el);
     }
 
@@ -76,5 +76,7 @@ ProductsCollection = (function() {
         addProduct: addProduct
         , removeProduct: removeProduct
         , loadProducts: loadProducts
+        , on: $.proxy($el.on, $el)
+        , trigger: $.proxy($el.trigger, $el)
     }
 })()

@@ -1,10 +1,25 @@
-var App = (function() {
+var App = (function(Basket, ProdCol) {
+    var
+        setEvents
+    ;
+
+    setEvents = function() {
+        ProdCol.on('change_count', function(ev, data) {
+            var
+                product = data.product
+            ;
+
+            //Basket.addProduct(product);
+        })
+    }
+
     return {
         init: function() {
-            ProductsCollection.loadProducts();
+            ProdCol.loadProducts();
+            setEvents();
         }
     }
-})()
+})(Basket, ProductsCollection)
 
 
 $(function() {
