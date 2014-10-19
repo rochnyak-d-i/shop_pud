@@ -7,8 +7,12 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: [
-                    './dev/components/angular/angular.js'
-                    , './dev/js/*.js'
+                    './dev/components/jquery/jquery.js'
+                    , './dev/components/handlebars/handlebars.js'
+                    , './dev/js/product.js'
+                    , './dev/js/products_collection.js'
+                    , './dev/js/basket.js'
+                    , './dev/js/main.js'
                 ],
                 dest: './public/js/main.js'
             }

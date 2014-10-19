@@ -10,7 +10,8 @@
 		"tests"
 	],
 	"dependencies": {
-		"angular": "latest",
-		"bootstrap": "latest"
+		"jquery": "1.9.*",
+		"bootstrap": "latest",
+        "handlebars": "2.0.0"
 	}
 }

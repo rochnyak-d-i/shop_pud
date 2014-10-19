@@ -37,8 +37,30 @@
         </header>
 
         <main class="row">
-            <h1></h1>
-            <section></section>
+            <section class="desc">
+                <h1 class="desc__header">Товары</h1>
+                <p class="desc__text"></p>
+            </section>
+
+            <section id="products">
+                <article class="product col-sm-4">
+                    <img class="product_image img-responsive img-circle" src="css/images/pencil.jpg" alt="image">
+                    <div class="product__name">
+                        Название
+                    </div>
+                    <div class="product__desc">
+                        Описание
+                    </div>
+                    <div class="product__price">
+                        100р
+                    </div>
+                    <div class="product__count">
+                        <button class="product__count__plus" type="button">&lt;</button>
+                        <input type="text" value="0" class="product__count__current"/>
+                        <button class="product__count__minus" type="button">&gt;</button>
+                    </div>
+                </article>
+            </section>
         </main>
 
         <footer id="footer">
@@ -46,6 +68,19 @@
             <div class="logo"></div>
         </footer>
     </div>
-    <script src="js/main.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script id="prod_tmpl" type="text/x-handlebars-template">
+        <article class="product col-sm-4">
+            <img class="product_image img-responsive img-circle" src="{{images[0]}}" alt="image">
+            <div class="product__name">{{name}}</div>
+            <div class="product__price">{{price}}р</div>
+            <div class="product__count">
+                <button class="product__count__plus" type="button">&lt;</button>
+                <input type="number" max="{{oCount.store}}" value="{{oCount.sale}}" class="product__count__current"/>
+                <button class="product__count__minus" type="button">&gt;</button>
+            </div>
+        </article>
+    </script>
 </body>
 </html>
