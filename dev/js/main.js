@@ -1,3 +1,26 @@
+if (!Array.prototype.indexOf)
+{
+  Array.prototype.indexOf = function(elt /*, from*/)
+  {
+    var len = this.length >>> 0;
+
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0)
+         ? Math.ceil(from)
+         : Math.floor(from);
+    if (from < 0)
+      from += len;
+
+    for (; from < len; from++)
+    {
+      if (from in this &&
+          this[from] === elt)
+        return from;
+    }
+    return -1;
+  };
+}
+
 var App = (function(Basket, ProdCol, Modal) {
     var
         setEvents
@@ -52,8 +75,18 @@ var App = (function(Basket, ProdCol, Modal) {
             Modal.addContent(Basket.render, 'basket');
             Modal.afterClose(Basket.close);
             initModal();
-            ProdCol.loadProducts();
-            setEvents();
+
+            $.ajax({
+                url: '/products.json'
+                , dataType: 'json'
+                , success: function(data) {
+                    ProdCol.loadProducts(data);
+                    setEvents();
+                }
+                , error: function(xhr, string, err) {
+                    throw err;
+                }
+            });
         }
     }
 })(Basket, ProductsCollection, Modal)

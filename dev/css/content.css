@@ -64,6 +64,10 @@ main {
     top: -13%;
     border-radius: 50%;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.55);
+
+    /*for IE8*/
+    display: block;
+    display: none\0;
 }
 
 .product__count__current {
@@ -90,10 +94,11 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
+    background: #000;
     background: rgba(0,0,0,0.5);
     display: none;
     max-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .modal__content {

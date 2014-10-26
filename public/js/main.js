@@ -12951,35 +12951,15 @@ ProductsCollection = (function() {
     ;
 
     loadProducts = function (data) {
-        var data = {0:{
-            id: 1
-            , name: 'Товар'
-            , image: 'css/images/pencil.jpg'
-            , price: 100
-            , count: 3
-            , tmpl: prodTmpl
-        }, 1:{
-            id: 2
-            , name: 'Товар2'
-            , image: 'css/images/pencil.jpg'
-            , price: 200
-            , count: 7
-            , tmpl: prodTmpl
-        }, 2:{
-            id: 3
-            , name: 'Товар2'
-            , image: 'css/images/pencil.jpg'
-            , price: 200
-            , count: 7
-            , tmpl: prodTmpl
-        }};
-
         var prodTmpl =
             Handlebars.compile($('#prod_tmpl').html());
 
         $.each(data, function(index, productData) {
+            if(!(index % 3)) {
+                $el.append('<div class="clearfix"></div>')
+            }
             addProduct(productData);
-        })
+        });
     }
 
     addProduct = function(data) {
@@ -13125,6 +13105,11 @@ Basket = (function() {
     removeEvents = function() {
         $.each($cachedEvents, function(id, cb) {
             var product = products[id];
+
+            if(!product) {
+                return false;
+            }
+
             product.$el.off('change_count', cb);
         });
         $cachedEvents = {};
@@ -13208,6 +13193,29 @@ Basket = (function() {
         , close: close
     }
 })();;
+if (!Array.prototype.indexOf)
+{
+  Array.prototype.indexOf = function(elt /*, from*/)
+  {
+    var len = this.length >>> 0;
+
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0)
+         ? Math.ceil(from)
+         : Math.floor(from);
+    if (from < 0)
+      from += len;
+
+    for (; from < len; from++)
+    {
+      if (from in this &&
+          this[from] === elt)
+        return from;
+    }
+    return -1;
+  };
+}
+
 var App = (function(Basket, ProdCol, Modal) {
     var
         setEvents
@@ -13262,8 +13270,18 @@ var App = (function(Basket, ProdCol, Modal) {
             Modal.addContent(Basket.render, 'basket');
             Modal.afterClose(Basket.close);
             initModal();
-            ProdCol.loadProducts();
-            setEvents();
+
+            $.ajax({
+                url: '/products.json'
+                , dataType: 'json'
+                , success: function(data) {
+                    ProdCol.loadProducts(data);
+                    setEvents();
+                }
+                , error: function(xhr, string, err) {
+                    throw err;
+                }
+            });
         }
     }
 })(Basket, ProductsCollection, Modal)

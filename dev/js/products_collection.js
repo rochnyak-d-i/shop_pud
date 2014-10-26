@@ -14,35 +14,15 @@ ProductsCollection = (function() {
     ;
 
     loadProducts = function (data) {
-        var data = {0:{
-            id: 1
-            , name: 'Товар'
-            , image: 'css/images/pencil.jpg'
-            , price: 100
-            , count: 3
-            , tmpl: prodTmpl
-        }, 1:{
-            id: 2
-            , name: 'Товар2'
-            , image: 'css/images/pencil.jpg'
-            , price: 200
-            , count: 7
-            , tmpl: prodTmpl
-        }, 2:{
-            id: 3
-            , name: 'Товар2'
-            , image: 'css/images/pencil.jpg'
-            , price: 200
-            , count: 7
-            , tmpl: prodTmpl
-        }};
-
         var prodTmpl =
             Handlebars.compile($('#prod_tmpl').html());
 
         $.each(data, function(index, productData) {
+            if(!(index % 3)) {
+                $el.append('<div class="clearfix"></div>')
+            }
             addProduct(productData);
-        })
+        });
     }
 
     addProduct = function(data) {

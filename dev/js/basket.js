@@ -81,6 +81,11 @@ Basket = (function() {
     removeEvents = function() {
         $.each($cachedEvents, function(id, cb) {
             var product = products[id];
+
+            if(!product) {
+                return false;
+            }
+
             product.$el.off('change_count', cb);
         });
         $cachedEvents = {};

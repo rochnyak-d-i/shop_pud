@@ -29,6 +29,7 @@ module.exports = function(grunt) {
         cssmin: {
             options: {
                 keepSpecialComments: 0
+                , noAdvanced: true
             },
             dist: {
                 src: [

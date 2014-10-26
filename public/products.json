@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1
+        , "name": "Стикеры с кошечками"
+        , "image": "images/prod1.jpg"
+        , "price": 200
+        , "count": 2
+    }
+    , {
+        "id": 2
+        , "name": "Записная книга"
+        , "image": "images/prod2.jpg"
+        , "price": 200
+        , "count": 10
+    }
+    , {
+        "id": 3
+        , "name": "Дневник"
+        , "image": "images/prod3.jpg"
+        , "price": 300
+        , "count": 10
+    }
+    , {
+        "id": 4
+        , "name": "Стикеры 'девочка бобо'"
+        , "image": "images/prod4.jpg"
+        , "price": 100
+        , "count": 500
+    }
+    , {
+        "id": 5
+        , "name": "Стикеры цветочки"
+        , "image": "images/prod5.jpg"
+        , "price": 400
+        , "count": 23
+    }
+    , {
+        "id": 6
+        , "name": "Стикеры с котятами"
+        , "image": "images/prod6.jpg"
+        , "price": 500
+        , "count": 77
+    }
+]
