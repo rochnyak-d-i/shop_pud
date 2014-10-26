@@ -1,14 +1,12 @@
 var Product = (function() {
-    function Prod(data, collection) {
-        this.collection = collection;
-
+    function Prod(data) {
         this.tmpl = data.tmpl || Handlebars.compile($('#prod_tmpl').html());
         this.$el = null;
         this.$cached = null;
 
         this.id = parseInt(data.id);
         this.name = data.name || '';
-        this.images = data.images || [];
+        this.image = data.image || '';
         this.price = parseInt(data.price) || 0;
         this.oCount = {
             store: parseInt(data.count) || 0
@@ -109,6 +107,11 @@ var Product = (function() {
 
     var
         BACKSPACE = 8
+        , DELETE = 46
+        , TAB = 9
+        , ESCAPE = 27
+        , ENTER = 13
+        , SERVICE_KEY = [BACKSPACE, DELETE, TAB, ESCAPE, ENTER]
         , NUMBERS = /[0-9]/
     ;
 
@@ -118,7 +121,8 @@ var Product = (function() {
         }
 
         this.$cached.current.val(this.oCount.sale);
-        this.collection.trigger('change_count', {
+
+        this.$el.trigger('change_count', {
             type: 'plus'
             , product: this
         });
@@ -130,7 +134,7 @@ var Product = (function() {
         }
 
         this.$cached.current.val(this.oCount.sale);
-        this.collection.trigger('change_count', {
+        this.$el.trigger('change_count', {
             type: 'minus'
             , product: this
         });
@@ -139,32 +143,36 @@ var Product = (function() {
     function keypressCurrent(ev) {
         var
             keyCode = ev.keyCode
-            , charStr = String.fromCharCode(keyCode);
+            , charStr = String.fromCharCode(keyCode)
         ;
 
-        if(keyCode !== BACKSPACE && !NUMBERS.test(charStr)) {
+        if(
+            BACKSPACE !== keyCode
+            && !NUMBERS.test(charStr)
+        ) {
             return false;
         }
     }
 
     function keyupCurrent(ev) {
         var
-            $this = $(ev.target)
+            $this = this.$cached.current
             , value = parseInt($this.val()) || 0;
         ;
 
-        this.$cached.current.val(value);
+        $this.val(value);
+        $.proxy(changeCurrent, this)(ev);
     }
 
     function changeCurrent(ev) {
         var
             $this = $(ev.target)
-            , value = parseInt($this.val()) || 0;
+            , value = parseInt($this.val()) || 0
         ;
 
         this.setToSale(value);
         this.$cached.current.val(this.oCount.sale);
-        this.collection.trigger('change_count', {
+        this.$el.trigger('change_count', {
             type: 'value'
             , product: this
         });

@@ -12675,17 +12675,93 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
   return __module0__;
 }));
 ;
-var Product = (function() {
-    function Prod(data, collection) {
-        this.collection = collection;
+var Modal;
 
+Modal = {
+    $html: null
+    , $modal: null
+    , $blockContent: null
+    , $items: null
+    , $close: null
+    , $wrapper: null
+    , $contents: {}
+    , afterCloseCb: null
+
+    , init: function() {
+        this.$modal = $('#modal');
+        this.$wrapper = this.$modal.find('.modal__wrapper-content');
+        this.$blockContent = this.$wrapper.find('.modal__content')
+        this.$items = $('.navigation').find('.navigation__item');
+        this.$html = $('html');
+        this.$close = this.$wrapper.find('.modal__close');
+
+        this.setEvents();
+    }
+
+    , setEvents: function() {
+        this.$items.on('click', $.proxy(this.open, this));
+        this.$modal.on('click', $.proxy(this.close, this));
+        this.$blockContent.on('click', this.nope);
+        this.$close.on('click', $.proxy(this.close, this));
+    }
+
+    , nope: function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+    }
+
+    , open: function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        var
+            el = $(ev.target)
+            , self = this
+            , id = el.attr('href').slice('1')
+            , contentElem = self.$contents[id]
+        ;
+
+        if($.isFunction(contentElem)) {
+            contentElem = contentElem();
+        }
+
+        if(!contentElem) {
+            return false;
+        }
+
+        self.$blockContent.append(contentElem)
+        self.$modal.fadeIn(function() {
+            self.$html.css('overflow', 'hidden');
+        });
+    }
+
+    , afterClose: function(cb) {
+        this.afterCloseCb = cb;
+    }
+
+    , close: function(ev) {
+        var self = this;
+
+        self.$modal.fadeOut(function() {
+            self.afterCloseCb && self.afterCloseCb();
+            self.$blockContent.empty();
+            self.$html.css('overflow', 'visible');
+        });
+    }
+
+    , addContent: function(el, id) {
+        this.$contents[id] = el;
+    }
+};
+var Product = (function() {
+    function Prod(data) {
         this.tmpl = data.tmpl || Handlebars.compile($('#prod_tmpl').html());
         this.$el = null;
         this.$cached = null;
 
         this.id = parseInt(data.id);
         this.name = data.name || '';
-        this.images = data.images || [];
+        this.image = data.image || '';
         this.price = parseInt(data.price) || 0;
         this.oCount = {
             store: parseInt(data.count) || 0
@@ -12786,6 +12862,11 @@ var Product = (function() {
 
     var
         BACKSPACE = 8
+        , DELETE = 46
+        , TAB = 9
+        , ESCAPE = 27
+        , ENTER = 13
+        , SERVICE_KEY = [BACKSPACE, DELETE, TAB, ESCAPE, ENTER]
         , NUMBERS = /[0-9]/
     ;
 
@@ -12795,7 +12876,8 @@ var Product = (function() {
         }
 
         this.$cached.current.val(this.oCount.sale);
-        this.collection.trigger('change_count', {
+
+        this.$el.trigger('change_count', {
             type: 'plus'
             , product: this
         });
@@ -12807,7 +12889,7 @@ var Product = (function() {
         }
 
         this.$cached.current.val(this.oCount.sale);
-        this.collection.trigger('change_count', {
+        this.$el.trigger('change_count', {
             type: 'minus'
             , product: this
         });
@@ -12816,32 +12898,36 @@ var Product = (function() {
     function keypressCurrent(ev) {
         var
             keyCode = ev.keyCode
-            , charStr = String.fromCharCode(keyCode);
+            , charStr = String.fromCharCode(keyCode)
         ;
 
-        if(keyCode !== BACKSPACE && !NUMBERS.test(charStr)) {
+        if(
+            BACKSPACE !== keyCode
+            && !NUMBERS.test(charStr)
+        ) {
             return false;
         }
     }
 
     function keyupCurrent(ev) {
         var
-            $this = $(ev.target)
+            $this = this.$cached.current
             , value = parseInt($this.val()) || 0;
         ;
 
-        this.$cached.current.val(value);
+        $this.val(value);
+        $.proxy(changeCurrent, this)(ev);
     }
 
     function changeCurrent(ev) {
         var
             $this = $(ev.target)
-            , value = parseInt($this.val()) || 0;
+            , value = parseInt($this.val()) || 0
         ;
 
         this.setToSale(value);
         this.$cached.current.val(this.oCount.sale);
-        this.collection.trigger('change_count', {
+        this.$el.trigger('change_count', {
             type: 'value'
             , product: this
         });
@@ -12853,25 +12939,36 @@ var ProductsCollection;
 
 ProductsCollection = (function() {
     var
-        $el = $('#products')
+        $el = $('.products__collection')
         , products = []
         , addProduct
         , removeProduct
         , loadProducts
+        , setEvent
+        , removeEvent
+
+        , $cachedEvents = {}
     ;
 
     loadProducts = function (data) {
         var data = {0:{
             id: 1
             , name: 'Товар'
-            , images: ['css/images/pencil.jpg', '/img2.png']
+            , image: 'css/images/pencil.jpg'
             , price: 100
             , count: 3
             , tmpl: prodTmpl
         }, 1:{
             id: 2
             , name: 'Товар2'
-            , images: ['css/images/pencil.jpg', '/img2.png']
+            , image: 'css/images/pencil.jpg'
+            , price: 200
+            , count: 7
+            , tmpl: prodTmpl
+        }, 2:{
+            id: 3
+            , name: 'Товар2'
+            , image: 'css/images/pencil.jpg'
             , price: 200
             , count: 7
             , tmpl: prodTmpl
@@ -12890,6 +12987,8 @@ ProductsCollection = (function() {
             ? data : new Product(data, ProductsCollection);
 
         products.push(product);
+
+        setEvent(product);
         $el.append(product.$el);
     }
 
@@ -12915,6 +13014,7 @@ ProductsCollection = (function() {
                 continue;
             }
 
+            removeEvent(products[i]);
             products[i].remove();
             products.splice(i, 1);
             break;
@@ -12923,12 +13023,23 @@ ProductsCollection = (function() {
         return true;
     }
 
+    setEvent = function(product) {
+        $cachedEvents[product.id] = function(data) {
+            $el.trigger('change_count', data);
+        }
+
+        product.$el.on('change_count', $cachedEvents[product.id]);
+    }
+
+    removeEvent = function(product) {
+        product.off('change_count', $cachedEvents[product.id]);
+    }
+
     return {
         addProduct: addProduct
         , removeProduct: removeProduct
         , loadProducts: loadProducts
         , on: $.proxy($el.on, $el)
-        , trigger: $.proxy($el.trigger, $el)
     }
 })();
 var Basket;
@@ -12937,13 +13048,99 @@ Basket = (function() {
     var
         products = {}
         , summa = 0
+        , tmpl = null
+        , $el = null
         , changeProduct
         , checkProduct
         , calculateSum
+        , render
+        , setSpinner
+        , close
+        , removeEvents
+        , afterCalcCb = null
+
+        //закешированные обработчики
+        //событий(для дальнейшего удаления)
+        , $cachedEvents = {}
     ;
 
-    changeProduct = function(product, event) {
-        if(['add', 'remove'].indeOf(event) === -1) {
+    render = function() {
+        if(tmpl === null) {
+            tmpl = Handlebars.compile($('#basket').html());
+        }
+
+        var sTmpl = tmpl(getData());
+        sTmpl = $.trim(sTmpl);
+
+        $el = $(sTmpl);
+        $el.find('.basket-spinner').each(setSpinner);
+
+        var sumEl = $el.find('.basket__price');
+        afterCalcCb = function(summa) {
+            sumEl.text(summa+'р');
+        }
+
+        return $el;
+    }
+
+    setSpinner = function(i, flag) {
+        var
+            $flag = $(flag)
+            , productId = $flag.data('id')
+            , product = products[productId]
+            , $cached = product.$cached
+            , arSpinner
+            , $spinner = $()
+        ;
+
+        arSpinner = [
+            $cached.current.clone(true)
+            , $cached.minus.clone(true)
+            , $cached.plus.clone(true)
+        ];
+
+        setEvent(product, function(data) {
+            arSpinner[0].val(
+                $cached.current.val()
+            );
+        })
+
+        $.each(arSpinner, function(i, el) {
+            $spinner = $spinner.add(el);
+        });
+
+        $flag.replaceWith($spinner)
+    }
+
+    setEvent = function(product, cb) {
+        $cachedEvents[product.id] = cb;
+
+        product.$el.on('change_count', $cachedEvents[product.id])
+    }
+
+    close = function() {
+        removeEvents();
+    }
+
+    removeEvents = function() {
+        $.each($cachedEvents, function(id, cb) {
+            var product = products[id];
+            product.$el.off('change_count', cb);
+        });
+        $cachedEvents = {};
+
+        afterCalcCb = null;
+    }
+
+    getData = function() {
+        return {
+            sum: summa
+            , products: products
+        }
+    }
+
+    changeProduct = function(product, method) {
+        if(['add', 'remove'].indexOf(method) === -1) {
             return false;
         }
 
@@ -12951,21 +13148,24 @@ Basket = (function() {
             return false;
         }
 
-        if(event === 'add') {
-            if(products[product.id]) {
-                return false;
-            }
+        var state = true;
 
-            products[product.id] = product;
+        if(method === 'add') {
+            if(products[product.id]) {
+                state = false;
+            } else {
+                products[product.id] = product;
+            }
         } else {
             if(!products[product.id]) {
-                return false;
+                state = false;
+            } else {
+                delete products[product.id];
             }
-
-            delete products[product.id];
         }
 
-        return true;
+        calculateSum();
+        return state;
     }
 
     checkProduct = function(product) {
@@ -12981,9 +13181,13 @@ Basket = (function() {
 
     calculateSum = function() {
         summa = 0;
-        $.each(products, function(product, id) {
+        $.each(products, function(id, product) {
             summa += product.price * product.oCount.sale;
         });
+
+        if(afterCalcCb) {
+            afterCalcCb(summa);
+        }
     }
 
     return {
@@ -12998,30 +13202,71 @@ Basket = (function() {
         , getSum: function() {
             return summa;
         }
+
+        , render: render
+
+        , close: close
     }
 })();;
-var App = (function(Basket, ProdCol) {
+var App = (function(Basket, ProdCol, Modal) {
     var
         setEvents
+        , initModal
     ;
+
+    initHelpers = function() {
+        Handlebars.registerHelper('flag-spinner', function(product, options) {
+            var sRet = '';
+
+            sRet += '<span class="basket-spinner" ';
+            sRet += 'data-id="' + product.id + '">';
+            sRet += '</span>';
+
+            return new Handlebars.SafeString(sRet);
+        });
+    }
+
+    initModal = function() {
+        $('#delivery, #payment, #contacts')
+            .each(function(i, elem) {
+                var
+                    $elem = $(elem)
+                    , contentElem = $('<div>').append($elem.html())
+                    , id = $elem.attr('id')
+                ;
+
+                Modal.addContent(contentElem, id);
+            });
+
+        Modal.init();
+    }
 
     setEvents = function() {
         ProdCol.on('change_count', function(ev, data) {
-            var
-                product = data.product
-            ;
+            var product = data.product;
 
-            //Basket.addProduct(product);
-        })
+            if(
+                data.type === 'minus'
+                && product.oCount.sale === 0
+            ) {
+                Basket.removeProduct(product);
+            } else {
+                Basket.addProduct(product);
+            }
+        });
     }
 
     return {
         init: function() {
+            initHelpers();
+            Modal.addContent(Basket.render, 'basket');
+            Modal.afterClose(Basket.close);
+            initModal();
             ProdCol.loadProducts();
             setEvents();
         }
     }
-})(Basket, ProductsCollection)
+})(Basket, ProductsCollection, Modal)
 
 
 $(function() {

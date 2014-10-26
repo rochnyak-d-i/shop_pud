@@ -9,6 +9,7 @@ module.exports = function(grunt) {
                 src: [
                     './dev/components/jquery/jquery.js'
                     , './dev/components/handlebars/handlebars.js'
+                    , './dev/js/modal.js'
                     , './dev/js/product.js'
                     , './dev/js/products_collection.js'
                     , './dev/js/basket.js'

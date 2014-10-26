@@ -55,14 +55,16 @@
 }
 
 .welcome__text2 {
-    font-size: 3.429em;
+    font-size: 2.429em;
     margin-left: 3.4%;
 }
 
 .welcome__text3 {
-    color: #fff;
-    font-size: 4.286em;
+    color: #AA3B39;
+    font-size: 2.286em;
     margin-left: 9%;
+    text-align: center;
+
 }
 
 .navigation {

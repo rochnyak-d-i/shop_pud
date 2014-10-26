@@ -24,25 +24,33 @@
             <div class="row">
                 <div class="col-md-6 welcome">
                     <div class="welcome__text1"></div>
-                    <div class="welcome__text2">Добро пожаловать:</div>
-                    <div class="welcome__text3">Добро пожаловать:</div>
+                    <div class="welcome__text2">Надоели обыденные канц. товары?</div>
+                    <div class="welcome__text3">
+                        У нас есть оригинальное решение.<br/>
+                        Блокноты и стикеры на любой вкус!<br/>
+                        От воздушных пирожных<br/>
+                        До мимишных котиков!
+                    </div>
                 </div>
                 <nav class="col-md-6 navigation">
-                    <div class="navigation__item-wrap"><a class="navigation__item" href="#">Корзина</a></div>
-                    <div class="navigation__item-wrap"><a class="navigation__item" href="#">Доставка</a></div>
-                    <div class="navigation__item-wrap"><a class="navigation__item" href="#">Оплата</a></div>
-                    <div class="navigation__item-wrap"><a class="navigation__item" href="#">Контакты</a></div>
+                    <div class="navigation__item-wrap"><a class="navigation__item" href="#basket">Корзина</a></div>
+                    <div class="navigation__item-wrap"><a class="navigation__item" href="#delivery">Доставка</a></div>
+                    <div class="navigation__item-wrap"><a class="navigation__item" href="#payment">Оплата</a></div>
+                    <div class="navigation__item-wrap"><a class="navigation__item" href="#contacts">Контакты</a></div>
                 </nav>
             </div>
         </header>
 
         <main class="row">
-            <section class="desc">
+            <!-- <section class="desc">
                 <h1 class="desc__header">Товары</h1>
                 <p class="desc__text"></p>
-            </section>
+            </section> -->
 
-            <section id="products"></section>
+            <section id="products">
+                <div class="products__collection"></div>
+                <div class="clearfix"></div>
+            </section>
         </main>
 
         <footer id="footer">
@@ -50,19 +58,107 @@
             <div class="logo"></div>
         </footer>
     </div>
+
+    <div id="modal">
+        <div class="modal__wrapper-content container col-md-8">
+            <div class="modal__close">x</div>
+            <div class="modal__content"></div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
 
     <script id="prod_tmpl" type="text/x-handlebars-template">
         <article class="product col-sm-4">
-            <img class="product_image img-responsive img-circle" src="{{images.[0]}}" alt="image">
-            <div class="product__name">{{name}}</div>
-            <div class="product__price">{{price}}р</div>
-            <div class="product__count">
-                <button class="product__count__minus" type="button">&lt;</button>
-                <input type="number" max="{{oCount.store}}" min="0" value="{{oCount.sale}}" class="product__count__current"/>
-                <button class="product__count__plus" type="button">&gt;</button>
+            <div class="product__wrap-image">
+                <img class="product__image" src="{{image}}" alt="{{name}}">
+            </div>
+            <div class="product__info">
+                <div class="product__name">{{name}}</div>
+                <div class="product__price">{{price}}р</div>
+                <div class="product__count">
+                    <input type="text" value="{{oCount.sale}}" class="product__count__current"/>
+                    <button class="product__count__minus" type="button">&#8595;</button>
+                    <button class="product__count__plus" type="button">&#8593;</button>
+                </div>
             </div>
         </article>
+    </script>
+
+    <script id="basket" type="text/x-handlebars-template">
+        <div class="basket">
+            <header class="basket__header row">
+                <h2>Корзина</h2>
+                <img class="basket__image"
+                        src="css/images/pencil.jpg" alt="pencil"/>
+            </header>
+            <section class="basket__content">
+                <h2>Ваш заказ:</h2>
+                <table class="basket__products table">
+                    <thead>
+                        <tr>
+                            <th>Наименование товара</th>
+                            <th>Количество</th>
+                            <th>Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{flag-spinner this}}</td>
+                            <td>{{price}}р</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">Итого</td>
+                            <td class="basket__price">{{sum}}р</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <h2>Ваши данные:</h2>
+
+                <form class="basket__delivery form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Имя:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" placeholder="Имя">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone" class="col-sm-2 control-label">Телефон:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="phone" placeholder="Телефон">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">Email:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="email" placeholder="email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-default">Заказать</button>
+                    </div>
+                  </div>
+                </form>
+            </section>
+        </div>
+    </script>
+
+    <script id="delivery" type="text/x-handlebars-template">
+        <div>Доставка</div>
+    </script>
+
+    <script id="payment" type="text/x-handlebars-template">
+        <div>Оплата</div>
+    </script>
+
+    <script id="contacts" type="text/x-handlebars-template">
+        <div>Контакты</div>
     </script>
 </body>
 </html>

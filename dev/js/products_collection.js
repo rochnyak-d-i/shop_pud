@@ -2,25 +2,36 @@ var ProductsCollection;
 
 ProductsCollection = (function() {
     var
-        $el = $('#products')
+        $el = $('.products__collection')
         , products = []
         , addProduct
         , removeProduct
         , loadProducts
+        , setEvent
+        , removeEvent
+
+        , $cachedEvents = {}
     ;
 
     loadProducts = function (data) {
         var data = {0:{
             id: 1
             , name: 'Товар'
-            , images: ['css/images/pencil.jpg', '/img2.png']
+            , image: 'css/images/pencil.jpg'
             , price: 100
             , count: 3
             , tmpl: prodTmpl
         }, 1:{
             id: 2
             , name: 'Товар2'
-            , images: ['css/images/pencil.jpg', '/img2.png']
+            , image: 'css/images/pencil.jpg'
+            , price: 200
+            , count: 7
+            , tmpl: prodTmpl
+        }, 2:{
+            id: 3
+            , name: 'Товар2'
+            , image: 'css/images/pencil.jpg'
             , price: 200
             , count: 7
             , tmpl: prodTmpl
@@ -39,6 +50,8 @@ ProductsCollection = (function() {
             ? data : new Product(data, ProductsCollection);
 
         products.push(product);
+
+        setEvent(product);
         $el.append(product.$el);
     }
 
@@ -64,6 +77,7 @@ ProductsCollection = (function() {
                 continue;
             }
 
+            removeEvent(products[i]);
             products[i].remove();
             products.splice(i, 1);
             break;
@@ -72,11 +86,22 @@ ProductsCollection = (function() {
         return true;
     }
 
+    setEvent = function(product) {
+        $cachedEvents[product.id] = function(data) {
+            $el.trigger('change_count', data);
+        }
+
+        product.$el.on('change_count', $cachedEvents[product.id]);
+    }
+
+    removeEvent = function(product) {
+        product.off('change_count', $cachedEvents[product.id]);
+    }
+
     return {
         addProduct: addProduct
         , removeProduct: removeProduct
         , loadProducts: loadProducts
         , on: $.proxy($el.on, $el)
-        , trigger: $.proxy($el.trigger, $el)
     }
 })()
